@@ -1,0 +1,44 @@
+﻿@page "/counter"
+@using Microsoft.Extensions.Logging;
+@inject ILogger<MainLayout> _logger
+
+<Styled @bind-Classname="@hover">
+    background-color:purple;
+</Styled>
+<Styled Classname="@hover" PseudoClass="PseudoClasses.Hover">
+    background-color:@color;
+</Styled>
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<BSButton @onclick="@onToggle" Class="@hover">Launch demo modal</BSButton>
+<BSModal @ref="Centered">
+    <BSModalHeader OnClick="@onToggle">Modal title</BSModalHeader>
+    <BSModalBody><p>Modal body text goes here.</p></BSModalBody>
+    <BSModalFooter>
+        <BSButton Color="Color.Secondary" @onclick="@onToggle">Close</BSButton>
+        <BSButton Color="Color.Primary" @onclick="@onToggle">Save Changes</BSButton>
+    </BSModalFooter>
+</BSModal>
+
+@code {
+    private int currentCount = 0;
+    BSModal Centered;
+    private string hover;
+    private string color = "green";
+
+    void onToggle(MouseEventArgs e)
+    {
+        Centered.Toggle();
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        _logger.LogInformation(currentCount.ToString());
+    }
+}
